@@ -1,0 +1,140 @@
+/* ===== 見た目の上書き（ビルド済みCSSの後に読む） ===== */
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600&family=Noto+Sans+JP:wght@400;500&display=swap');
+
+:root {
+  --ink: #163a4e;
+  --ink-soft: #4d6b7c;
+  --wash: #f4f9fc;
+}
+
+html, body { background: var(--wash) !important; }
+
+/* ページ全体のうしろに、うすく水彩を敷く */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(244,249,252,.35) 0%, rgba(244,249,252,.72) 40%, rgba(244,249,252,.9) 100%),
+    url("./art/landscape.webp") center 40% / cover no-repeat;
+  opacity: 1;
+  pointer-events: none;
+}
+
+/* ヘッダー：ヒーローの上に透かして重ねる */
+.site-header {
+  position: absolute !important;
+  top: 0; left: 0; right: 0;
+  z-index: 20 !important;
+  max-width: none !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.72) 0%, rgba(255,255,255,0) 100%) !important;
+  height: 84px !important;
+  padding: 0 clamp(20px, 6%, 80px) !important;
+}
+.site-header .brand strong {
+  font-family: "Shippori Mincho", serif !important;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--ink);
+}
+.site-header nav a { color: var(--ink); font-weight: 500; }
+
+/* ヒーロー：スライドショー */
+.library-banner {
+  position: relative;
+  height: clamp(420px, 62vh, 640px) !important;
+  background: var(--wash) !important;
+  overflow: hidden;
+  isolation: isolate;
+}
+.library-banner > img { display: none !important; }
+.hero-slides { position: absolute; inset: 0; z-index: 0; }
+.hero-slide {
+  position: absolute; inset: 0;
+  background-position: center 38%;
+  background-size: cover;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 1.8s ease, transform 9s linear;
+}
+.hero-slide.is-on { opacity: 1; transform: scale(1.0); }
+.hero-wash {
+  position: absolute; inset: 0; z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(246,251,255,.94) 0%, rgba(246,251,255,.78) 32%, rgba(246,251,255,.15) 62%, rgba(246,251,255,0) 100%),
+    linear-gradient(180deg, rgba(246,251,255,0) 70%, var(--wash) 100%);
+}
+.hero-copy {
+  position: absolute; z-index: 2;
+  left: clamp(20px, 6%, 80px);
+  top: 50%; transform: translateY(-46%);
+  max-width: 560px;
+}
+.hero-eyebrow {
+  font-size: 11px; letter-spacing: .32em; color: var(--ink-soft);
+  margin: 0 0 14px; font-weight: 500;
+}
+.hero-title {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 600;
+  font-size: clamp(30px, 4.2vw, 52px);
+  line-height: 1.35;
+  letter-spacing: .04em;
+  color: var(--ink);
+  margin: 0;
+}
+.hero-lead {
+  margin: 18px 0 0;
+  font-size: 14.5px; line-height: 2;
+  color: var(--ink-soft);
+}
+.hero-dots {
+  position: absolute; z-index: 2;
+  right: clamp(20px, 6%, 80px); bottom: 26px;
+  display: flex; gap: 8px;
+}
+.hero-dots button {
+  width: 8px; height: 8px; border-radius: 99px; border: 0; padding: 0;
+  background: rgba(22,58,78,.25); cursor: pointer; transition: all .3s;
+}
+.hero-dots button.is-on { width: 22px; background: var(--ink); }
+
+/* 本文：カードを水彩の上に浮かせる */
+.library-section { padding-top: 10px !important; }
+.library-section .section-heading p { display: none; }
+.library-section h1 {
+  font-family: "Shippori Mincho", serif !important;
+  font-weight: 600 !important;
+  color: var(--ink);
+}
+.materials-surface,
+.resource-card {
+  background: rgba(255,255,255,.88) !important;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.resource-card {
+  border: 1px solid rgba(22,58,78,.08) !important;
+  box-shadow: 0 10px 30px -18px rgba(22,58,78,.35) !important;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.resource-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px -18px rgba(22,58,78,.45) !important;
+}
+
+.site-footer { background: #143b50 !important; }
+
+@media (max-width: 720px) {
+  .library-banner { height: 400px !important; }
+  .hero-copy { max-width: 86%; top: 54%; }
+  .hero-wash {
+    background:
+      linear-gradient(180deg, rgba(246,251,255,.78) 0%, rgba(246,251,255,.62) 48%, rgba(246,251,255,.15) 80%, var(--wash) 100%);
+  }
+  .hero-slide { background-position: 62% center; }
+  .hero-copy { top: 42%; text-shadow: 0 0 14px rgba(255,255,255,.95), 0 0 4px rgba(255,255,255,.9); }
+  .hero-dots { bottom: 16px; right: 16px; }
+  .site-header { height: 70px !important; }
+}
